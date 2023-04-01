@@ -3,6 +3,7 @@ from nlp import nlp
 import sqlite3
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     connection = sqlite3.connect("test.db")
@@ -34,6 +35,9 @@ def index():
         student_department TEXT
     );
     """
+
+    cursor.execute('INSERT INTO staff (staff_id,staff_first_name,staff_last_name) VALUES (1,"John","Doe"), (2,"Jane","Doe"), (3,"Joe","Doe"), (4,"Jill","Doe"), (5,"Jack","Doe"), (6,"James","Doe")')
+
     # Execute the SQL command to create the table
     cursor.execute(create_table_sql)
     # Commit the changes to the database
