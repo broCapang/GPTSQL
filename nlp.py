@@ -14,7 +14,7 @@ from langchain.agents import AgentExecutor
 
 def nlp(text):
 
-    os.environ['OPENAI_API_KEY'] = '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'
+    os.environ['OPENAI_API_KEY'] = '<API-KEY>'
     # Close the database connection
     # connection.close()
 
