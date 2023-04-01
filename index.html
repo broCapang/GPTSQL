@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAI Color Theme Homepage</title>
+    <style>
+        body {
+            background-color: #0f1218;
+            color: #fff;
+            font-family: "Open Sans", sans-serif;
+            font-size: 16px;
+        }
+        input[type=text] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        input[type=submit] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1a1d23;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>OpenAI Color Theme Homepage</h1>
+    <form action="/" method="POST">
+        <label for="text_input">Enter text:</label>
+        <input type="text" id="text_input" name="text_input">
+        <input type="submit" value="Submit">
+    </form>
+    {% if text_input %}
+        <p>You entered: {{ text_input }}</p>
+    {% endif %}
+</body>
+</html>
