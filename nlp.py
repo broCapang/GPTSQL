@@ -14,9 +14,9 @@ import openai
 
 def nlp(text):
 
-    os.environ['OPENAI_API_KEY'] = "API_KEY"
+    os.environ['OPENAI_API_KEY'] = "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"
     openai.api_key = os.getenv("OPENAI_API_KEY")
-
+    text = """give all product"""
     SQL_PREFIX = """You are an agent designed to give SQL Query.
     You are given a table and a question.
     You must answer the question using SQL.
@@ -35,8 +35,8 @@ def nlp(text):
     The question is as follows:
     """
     complete = SQL_PREFIX + text
-    response = openai.Completion.create( 
-        model="code-davinci-002",
+    response = openai.Completion.create(
+        model="text-davinci-003",
         prompt=complete,
         temperature=0,
         max_tokens=1000,
@@ -44,5 +44,5 @@ def nlp(text):
         frequency_penalty=0,
         presence_penalty=0,
     )
-    output = response['choices'][0]['text']
+    output = response
     return output
