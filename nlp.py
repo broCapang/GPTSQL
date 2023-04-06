@@ -1,45 +1,48 @@
-import pandas as pd
 import os
-import langchain.llms
-import sqlite3
-from langchain.agents import create_sql_agent
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-from langchain.sql_database import SQLDatabase
-from langchain.llms.openai import OpenAI
-from langchain.agents import AgentExecutor
-from dotenv import load_dotenv
+# import langchain.llms
+# import sqlite3
+# from langchain.agents import create_sql_agent
+# from langchain.agents.agent_toolkits import SQLDatabaseToolkit
+# from langchain.sql_database import SQLDatabase
+# from langchain.llms.openai import OpenAI
+# from langchain.agents import AgentExecutor
+# from dotenv import load_dotenv
 
-load_dotenv()
-
+import openai
 
 
 
 def nlp(text):
 
-    os.environ['OPENAI_API_KEY'] = <API_KEY>
-    # Close the database connection
-    # connection.close()
+    os.environ['OPENAI_API_KEY'] = "API_KEY"
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
-    # SQL_PREFIX = """You are an agent designed to interact with a SQL database.
-    # Given an input question, create a syntactically correct {dialect} query to run, then look at the results of the query and return the syntatically correct {dialect} query itself as an answer not the results.
-    # Unless the user specifies a specific number of examples they wish to obtain, always limit your query to at most {top_k} results.
-    # You can order the results by a relevant column to return the most interesting examples in the database.
-    # Never query for all the columns from a specific table, only ask for a the few relevant columns given the question.
-    # You have access to tools for interacting with the database.
-    # Only use the below tools. Only use the information returned by the below tools to construct your final answer.
-    # You MUST double check your query before executing it. If you get an error while executing a query, rewrite the query and try again.
-    # DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database.
-    # If the question does not seem related to the database, just return "I don't know" as the answer.
-    # """
-
-    db = SQLDatabase.from_uri("sqlite:///./test.db")
-    toolkit = SQLDatabaseToolkit(db=db)
-
-    agent_executor = create_sql_agent(
-        llm=OpenAI(temperature=0),
-        toolkit=toolkit,
-        verbose=False
+    SQL_PREFIX = """You are an agent designed to give SQL Query.
+    You are given a table and a question.
+    You must answer the question using SQL.
+    The table is as follows:
+    `Table: Products
+    product_id (integer, primary key)
+    product_name (varchar(255))
+    description (text)
+    price (decimal)
+    category_id (integer, foreign key)
+    Table: Staff
+    staff_id (integer, primary key)
+    first_name (varchar(255))
+    last_name (varchar(255))
+    email (varchar(255))`
+    The question is as follows:
+    """
+    complete = SQL_PREFIX + text
+    response = openai.Completion.create( 
+        model="code-davinci-002",
+        prompt=complete,
+        temperature=0,
+        max_tokens=1000,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
     )
-
-    output = agent_executor.run(text)
+    output = response['choices'][0]['text']
     return output
