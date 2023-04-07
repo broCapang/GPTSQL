@@ -16,10 +16,10 @@ def nlp(text):
 
     os.environ['OPENAI_API_KEY'] = "API KEY"
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    text = """give all product"""
     SQL_PREFIX = """You are an agent designed to give SQL Query.
     You are given a table and a question.
     You must answer the question using SQL.
+    You must answer ONLY SQL Query.
     The table is as follows:
     `Table: Products
     product_id (integer, primary key)
